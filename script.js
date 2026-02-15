@@ -22,21 +22,7 @@ const fraseDisplay = document.getElementById('fraseCancion');
 
 
 // Escuchar click en cada canción
-canciones.forEach(c => {
-    const audio = c.querySelector('audio');
 
-    c.addEventListener('click', () => {
-        // Pausar todas las demás canciones
-        canciones.forEach(other => {
-            const a = other.querySelector('audio');
-            if (a !== audio) a.pause();
-        });
-
-        // Reproducir la canción seleccionada
-        audio.play();
-    });
-    
-});
 function crearParticulas() {
     for (let i = 0; i < 15; i++) {
         const p = document.createElement('div');
@@ -91,4 +77,44 @@ corazones.addEventListener('mousemove', (e) => {
     const y = (e.clientY / window.innerHeight) * 20;
 
     corazones.style.backgroundPosition = `${50 - x}% ${50 - y}%`;
+});
+document.querySelectorAll('.cancion').forEach(card => {
+
+    const audio = card.querySelector('audio');
+    const playBtn = card.querySelector('.play-btn');
+    const progress = card.querySelector('.progress');
+    const time = card.querySelector('.time');
+
+    playBtn.addEventListener('click', () => {
+
+        // Pausar otros audios
+        document.querySelectorAll('.cancion audio').forEach(a => {
+            if (a !== audio) a.pause();
+        });
+
+        if (audio.paused) {
+            audio.play();
+            playBtn.textContent = '❚❚';
+        } else {
+            audio.pause();
+            playBtn.textContent = '▶';
+        }
+    });
+
+    audio.addEventListener('timeupdate', () => {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progress.style.width = percent + '%';
+
+        const minutes = Math.floor(audio.currentTime / 60);
+        const seconds = Math.floor(audio.currentTime % 60)
+            .toString()
+            .padStart(2, '0');
+
+        time.textContent = `${minutes}:${seconds}`;
+    });
+
+    audio.addEventListener('ended', () => {
+        playBtn.textContent = '▶';
+    });
+
 });
