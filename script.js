@@ -20,25 +20,10 @@ btnSiguiente.addEventListener('click', () => {
 const canciones = document.querySelectorAll('.cancion');
 const fraseDisplay = document.getElementById('fraseCancion');
 
-// Función máquina de escribir
-function maquinaDeEscribir(elemento, texto, velocidad = 50) {
-    let i = 0;
-    elemento.textContent = '';
-
-    // Limpiamos texto: quitamos saltos de línea y espacios extra
-    texto = texto.replace(/\s+/g, ' ').trim();
-
-    const interval = setInterval(() => {
-        elemento.textContent += texto.charAt(i);
-        i++;
-        if (i >= texto.length) clearInterval(interval);
-    }, velocidad);
-}
 
 // Escuchar click en cada canción
 canciones.forEach(c => {
     const audio = c.querySelector('audio');
-    const frase = c.dataset.frase;
 
     c.addEventListener('click', () => {
         // Pausar todas las demás canciones
@@ -49,8 +34,61 @@ canciones.forEach(c => {
 
         // Reproducir la canción seleccionada
         audio.play();
-
-        // Mostrar frase con efecto máquina de escribir
-        maquinaDeEscribir(fraseDisplay, frase, 50);
     });
+    
+});
+function crearParticulas() {
+    for (let i = 0; i < 15; i++) {
+        const p = document.createElement('div');
+        p.className = 'particula';
+
+        const x = (Math.random() - 0.5) * 120 + 'px';
+        const y = (Math.random() - 0.5) * 120 + 'px';
+
+        p.style.setProperty('--x', x);
+        p.style.setProperty('--y', y);
+
+        p.style.left = '50%';
+        p.style.top = '50%';
+
+        fraseDisplay.appendChild(p);
+
+        setTimeout(() => p.remove(), 600);
+    }
+}
+setInterval(() => {
+    const heart = document.createElement('img');
+    heart.src = 'canciones/pixel-heart.png'; // 👈 cambia esto
+    heart.className = 'pixel-heart';
+
+    heart.style.left = Math.random() * 100 + '%';
+    heart.style.animationDuration = (4 + Math.random() * 3) + 's';
+
+    document.getElementById('corazones').appendChild(heart);
+
+    setTimeout(() => heart.remove(), 7000);
+}, 500);
+document.querySelectorAll('.cancion audio').forEach(audio => {
+    const card = audio.closest('.cancion');
+
+    audio.addEventListener('play', () => {
+        document.querySelectorAll('.cancion').forEach(c =>
+            c.classList.remove('activa')
+        );
+        card.classList.add('activa');
+    });
+
+    audio.addEventListener('pause', () => {
+        card.classList.remove('activa');
+    });
+
+    audio.addEventListener('ended', () => {
+        card.classList.remove('activa');
+    });
+});
+corazones.addEventListener('mousemove', (e) => {
+    const x = (e.clientX / window.innerWidth) * 20;
+    const y = (e.clientY / window.innerHeight) * 20;
+
+    corazones.style.backgroundPosition = `${50 - x}% ${50 - y}%`;
 });

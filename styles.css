@@ -53,13 +53,6 @@
 }
 
 /* SECCIÓN CORAZONES */
-.corazones {
-    display: none;
-    min-height: 100vh;
-    background: #ffe6f0;
-    padding: 50px 20px;
-    text-align: center;
-}
 
 .pistas {
     display: flex;
@@ -108,27 +101,7 @@
 }
 
 /* Frase máquina de escribir */
-.frase-maquina p {
-    font-family: monospace;
-    font-size: 20px;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
-    margin-bottom: 30px;
-    min-height: 30px;
-}
-.frase-maquina p {
-    font-family: monospace;
-    font-size: 20px;
-    white-space: normal; /* permite que el texto haga wrap automáticamente */
-    word-wrap: break-word; /* rompe palabras largas si hace falta */
-    overflow-wrap: break-word; /* compatibilidad adicional */
-    margin-bottom: 30px;
-    max-width: 600px; /* ancho máximo para que no se desparrame */
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.5; /* espacio entre líneas más legible */
-    text-align: center; /* opcional, si querés centrar la frase */
-}
+
 /* SECCIÓN CARTA */
 /* La sección ocupa toda la pantalla */
 .carta{
@@ -198,12 +171,6 @@
         font-size: 16px;
     }
 
-    /* Frases canciones */
-    .frase-maquina p {
-        font-size: 16px;
-        max-width: 90%;
-    }
-
     .cancion {
         padding: 12px 15px;
     }
@@ -212,17 +179,22 @@
         font-size: 16px;
     }
 }
-.corazones {
-    display: none;
-    min-height: 100vh;
-    padding: 60px 20px;
 
-    background: url('cielo-corazon.jpg') center/cover no-repeat;
+.corazones {
+    position: relative;
+    overflow: hidden;
+
+    min-height: 100vh;
+
+    background: url('canciones/cielo-corazon.jpg') center/cover no-repeat;
     background-attachment: fixed;
+    background-size: 120% 120%;
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 60px 20px;
+    background-size: 120% 120%;
 }
 .frases-slider {
     position: relative;
@@ -258,3 +230,53 @@
 
 .prev-frase { left: 5px; }
 .next-frase { right: 5px; }
+.corazones::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.pixel-heart {
+    position: absolute;
+    bottom: -30px;
+    width: 24px;
+    height: 24px;
+
+    image-rendering: pixelated;
+
+    animation: subir linear infinite;
+    pointer-events: none;
+}
+
+
+@keyframes subir {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+    }
+    10% { opacity: 1; }
+    100% {
+        transform: translateY(-110vh) scale(1.2);
+        opacity: 0;
+    }
+}
+.particula {
+    position: absolute;
+    pointer-events: none;
+    font-size: 14px;
+    animation: explotar 800ms ease-out forwards;
+}
+
+@keyframes explotar {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--x), var(--y)) scale(0.5);
+        opacity: 0;
+    }
+}
+
+ 
