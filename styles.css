@@ -357,3 +357,34 @@
     from { transform: scaleY(1); }
     to { transform: scaleY(1.1); }
 }
+@media (max-width: 768px) {
+
+    .lista-canciones {
+        grid-template-columns: 1fr; /* una sola columna */
+        gap: 30px;
+    }
+
+    .cancion {
+        padding: 25px;
+        border-radius: 25px;
+        font-size: 18px;
+    }
+
+    .cancion .nombre {
+        font-size: 20px;
+    }
+
+    .player {
+        gap: 20px;
+    }
+
+    .play-btn {
+        width: 55px;
+        height: 55px;
+        font-size: 20px;
+    }
+
+    .waveform {
+        height: 50px;
+    }
+}
