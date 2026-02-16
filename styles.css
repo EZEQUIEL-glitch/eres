@@ -389,4 +389,44 @@
     .time {
         font-size: 15px;
     }
+    @media (max-width: 768px) {
+    .san-valentin {
+        font-size: 42px;
+        padding: 0 10px;
+    }
+}
+}
+.san-valentin {
+    margin-top: 100px;
+    text-align: center;
+
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 2px;
+
+    color: #ffb3d9;
+
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+
+    animation: aparecerMensaje 2s ease forwards 0.5s,
+               latido 1.8s ease-in-out infinite;
+
+    text-shadow:
+        0 0 10px rgba(255,105,180,0.7),
+        0 0 25px rgba(255,105,180,0.5),
+        0 0 40px rgba(255,105,180,0.3);
+}
+
+@keyframes aparecerMensaje {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes latido {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
